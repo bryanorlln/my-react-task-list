@@ -1,11 +1,11 @@
 export const Task =(props)=>{
-    const {texto} = props;
+    const {index,texto} = props;
 
 
-    return(        
+    return(
     <li>
         <input type="checkbox"/> 
-        <label>{texto}</label>
+        <label >{texto}</label>
     </li>
     )
-}
+ }
