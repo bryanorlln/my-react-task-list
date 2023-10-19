@@ -1,48 +1,56 @@
 import { Task } from "./Task";
-import { useState,useEffect } from "react";
-export const TaskList=()=>{
+import { useState} from "react";
+import useSetList from "../hooks/useSetList";
+//Esta es la lista donde se agregan las tareas 
 
-    
-   const [text, setText] = useState("");
-   const [list, setList] = useState([]);
-   
+export const TaskList=(props)=>{
+  const { tasks, createTask, deleteTask, updateTask } = useSetList();
+  const [newTask, setNewTask] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
 
-  useEffect(() => {
-    const storedList = JSON.parse(localStorage.getItem('list'));
-      setList(storedList);
-  }, []);
+  const handleCreateTask = () => {
+      createTask(newTask);
+      setNewTask("");
+  };
 
+  const handleEditTask = (index) => {
+      setEditIndex(index);
+      setNewTask(tasks[index]);
+  };
 
-  const añadir = () => {
-    localStorage.setItem('list', JSON.stringify(list));
-    const tarea = {texto: text};
-    setList([...list, tarea]);
-    setText("");
+  const handleUpdateTask = () => {
+      updateTask(editIndex, newTask);
+      setEditIndex(null);
+      setNewTask("");
+  };
 
-    localStorage.setItem('list', JSON.stringify(list));
+  return (
+      <div className="container2">
+      <input
+          type="text"
+          placeholder="Nueva Tarea"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+      />
+
+      {editIndex !== null ? (
+          <button onClick={handleUpdateTask}>Update</button>
+      ) : (
+          <button className="btnCreate" onClick={handleCreateTask}>Crear</button>
+      )}
+      <div className="container3">
+      <ul>
+          {tasks.map((task, index) => (
+          <Task 
+          key={index}
+          task={task}>
+              
+          </Task>
+          ))}
+      </ul>
+      </div>
+      </div>
+  );
   }
- 
-    return(
-
-        <div>
-
-            <input 
-            type="text" 
-            onChange={(inputText)=>{
-              setText(inputText.target.value);
-            }}/>
-
-                <button 
-                onClick={añadir}>Añadir</button>
-            {
-                list.map( (tarea,index) => (
-                <Task
-                key={index}
-                texto={tarea.texto}/>
-                ))
-            }
-        </div>
-    )
-}
 
 
