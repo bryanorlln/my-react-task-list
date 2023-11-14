@@ -1,5 +1,8 @@
 #¿Qué es mi producto y para que sirve?
-Hola mi producto es para agregar a la siguiente lista tareas para realizar y tener en pendiente que es lo que necesitas o recordatorio de lo que vas haciendo.
+Hola este producto es una Lista de Tareas y sirve para agregar tus tareas diarias que tiene pendiente en realizar 
+y puede ir agregandolas
 
 #¿Cuáles son las funcionalidades más importantes y porque los usuarios las usarían?
-La funcionalidad por la cual lo necesitarian es para anotar y tenerlo presente de que tareas o cosas por hacer tienen pendientes.
+Las funcionalidades mas importantes es la agenda de una tarea pendiente por lo cual tu tienes pendiente y vas marcando 
+en una casilla las tareas que ya realizastes en tu día, los usuarios la usarian para poder tener un recordatorio
+de sus cosas pendientes por hacer en su día.
