@@ -1,56 +1,91 @@
-import { Task } from "./Task";
-import { useState} from "react";
+import { useState } from "react";
 import useSetList from "../hooks/useSetList";
-//Esta es la lista donde se agregan las tareas 
+import { Task } from "./Task";
+import App from "../App";
 
-export const TaskList=(props)=>{
-  const { tasks, createTask, deleteTask, updateTask } = useSetList();
+export const TaskList = (props) => {
+  const { tasks, subrayados, createTask, deleteTask, editTask, toggleSubrayado} = useSetList();
   const [newTask, setNewTask] = useState("");
-  const [editIndex, setEditIndex] = useState(null);
+  const [editingIndex, setEditingIndex] = useState(null);
 
+ // Todos los eventos para los botones Crear, Borrar, Editar
   const handleCreateTask = () => {
+    if (editingIndex !== null) {
+      
+      editTask(editingIndex, newTask);
+      setEditingIndex(null);
+    } else {
       createTask(newTask);
-      setNewTask("");
+    }
+    setNewTask("");
   };
 
   const handleEditTask = (index) => {
-      setEditIndex(index);
-      setNewTask(tasks[index]);
+    
+    setEditingIndex(index);
+    setNewTask(tasks[index]);
   };
 
-  const handleUpdateTask = () => {
-      updateTask(editIndex, newTask);
-      setEditIndex(null);
-      setNewTask("");
+  const handleDeleteTask = (index) => {
+    deleteTask(index);
+    setNewTask("");
+    setEditingIndex(null);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleCreateTask();
+  };
+ 
+  /* contador para las tareas con check */
+  const countCompletedTasks = () => {
+    return subrayados.filter((subrayado) => subrayado).length;
   };
 
   return (
-      <div className="container2">
-      <input
+    <>
+    
+    <div className="container2">
+      <form onSubmit={handleSubmit}>
+        <input
           type="text"
           placeholder="Nueva Tarea"
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
-      />
+        />
+        <button className="btnCreate" onClick={handleCreateTask}>
+          {editingIndex !== null ? "Guardar" : "Crear"}
+        </button>
+      </form>
+      </div>
 
-      {editIndex !== null ? (
-          <button onClick={handleUpdateTask}>Update</button>
-      ) : (
-          <button className="btnCreate" onClick={handleCreateTask}>Crear</button>
-      )}
-      <div className="container3">
-      <ul>
+      <div className="container3"  >
+        
+        <ul>
           {tasks.map((task, index) => (
-          <Task 
-          key={index}
-          task={task}>
-              
-          </Task>
+            <Task
+              key={index}
+              task={task}
+              index={index}
+              deleteTask={handleDeleteTask}
+              subrayados={subrayados}
+              toggleSubrayado={toggleSubrayado}
+              editTask={handleEditTask}
+            />
           ))}
-      </ul>
+        </ul>
+        
       </div>
+      <div className="container4">
+        <p>
+          Tareas completadas: {countCompletedTasks()} / {tasks.length}
+        </p>
       </div>
+   
+  </>
   );
-  }
+
+};
 
 
+  

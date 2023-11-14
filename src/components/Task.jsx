@@ -1,24 +1,19 @@
-import useSetList from "../hooks/useSetList";
-import { useState } from "react";
+/* lista de las tareas y botones */
+export const Task = (props) => {
+  const { task, index, deleteTask, subrayados, toggleSubrayado, editTask } = props;
 
-export const Task =(props)=>{    
-    const {task,index}=props;
-    const [subrayado, setSubrayado]=useState(false);
-    
-    const toggleSubrayado =()=>{
-        setSubrayado(!subrayado);
-    }
-return(
+  return (
     <>
-    <li key={index}>
-        <input type="checkbox" checked={subrayado} onChange={toggleSubrayado} />
-        <label className={subrayado ? 'subrayado' : ''}>{task}</label>
-        <button className="btnlist" onClick={() => deleteTask(index)}>Del</button>
-        <button className="btnlist" onClick={() => handleEditTask(index)}>Agg</button>
-    </li>
+      <li>
+        <input
+          type="checkbox"
+          checked={subrayados[index]}
+          onChange={() => toggleSubrayado(index)}
+        />
+        <span className={subrayados[index] ? "subrayado" : ""}>{task}</span>
+        <button onClick={() => editTask(index)}>Editar</button>
+        <button onClick={() => deleteTask(index)}>Borrar</button>
+      </li>
     </>
-)
-
-}
-
-    
+  );
+};
