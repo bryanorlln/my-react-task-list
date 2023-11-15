@@ -15,6 +15,8 @@ function App() {
   return(
         <div>
       <h1 className='titulomenu'>Bienvenidos a Mi Lista de Tareas</h1>
+      <br />
+      <br />
       <BrowserRouter>
       <Menu/>
         <Suspense fallback={'Cargando...'}>
